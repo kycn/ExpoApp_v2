@@ -1,4 +1,4 @@
-package com.example.expoapp_v2.ui.theme
+package com.example.expoapp_v2.common.view.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

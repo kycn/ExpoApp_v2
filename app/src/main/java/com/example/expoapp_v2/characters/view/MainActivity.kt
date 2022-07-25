@@ -1,4 +1,4 @@
-package com.example.expoapp_v2
+package com.example.expoapp_v2.characters.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.expoapp_v2.ui.theme.ExpoApp_v2Theme
+import com.example.expoapp_v2.common.view.theme.ExpoApp_v2Theme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
