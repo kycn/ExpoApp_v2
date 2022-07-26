@@ -3,9 +3,9 @@ package com.example.expoapp_v2.characterdetail.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.expoapp_v2.characterdetail.domain.GetCharacterDetailUseCase
 import com.example.expoapp_v2.characterdetail.domain.model.DetailedCharacter
 import com.example.expoapp_v2.characterdetail.view.CharacterDetailDestination
-import com.example.expoapp_v2.characterdetail.domain.GetCharacterDetailUseCase
 import com.example.expoapp_v2.common.service.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

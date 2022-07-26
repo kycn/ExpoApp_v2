@@ -2,6 +2,8 @@ package com.example.expoapp_v2.characterdetail.view.composable
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
@@ -93,18 +95,19 @@ fun CharacterDetail(
     characterItem: DetailedCharacter,
     onBackClick: () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(PaddingValues(8.dp)),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         Button(onClick = { onBackClick.invoke() }) {
             Text(text = "Go back")
         }
         Row(
             verticalAlignment = CenterVertically,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(PaddingValues(vertical = 8.dp))
-                .clickable(
-                    onClick = { onBackClick.invoke() }
-                ),
+                .padding(PaddingValues(vertical = 8.dp)),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             AsyncImage(
@@ -131,9 +134,17 @@ fun CharacterDetail(
             }
         }
         Divider(color = Color.Black)
-        Text(text = characterItem.episode.toString())
-    }
+        LazyColumn(
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(characterItem.episode) {
+                Text(text = it, Modifier.clickable {
 
+                })
+                Divider(color = Color.Black)
+            }
+        }
+    }
 }
 
 @Composable
