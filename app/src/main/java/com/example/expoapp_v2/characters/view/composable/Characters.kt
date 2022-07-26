@@ -1,5 +1,6 @@
 package com.example.expoapp_v2.characters.view.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -111,7 +112,12 @@ fun CharacterItemRow(
 ) {
     Row(
         verticalAlignment = CenterVertically,
-        modifier = Modifier.padding(PaddingValues(vertical = 8.dp)),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(PaddingValues(vertical = 8.dp))
+            .clickable(
+                onClick = { navigateToProductDetail.invoke(characterItem) }
+            ),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AsyncImage(
