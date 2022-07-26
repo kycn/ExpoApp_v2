@@ -1,8 +1,9 @@
 package com.example.expoapp_v2.characterdetail.view.composable
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,6 +22,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.expoapp_v2.characterdetail.domain.model.DetailedCharacter
+import com.example.expoapp_v2.characterdetail.domain.model.DetailedEpisode
 import com.example.expoapp_v2.characterdetail.viewmodel.CharacterDetailViewModel
 import com.example.expoapp_v2.common.service.ApiResult
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -41,6 +43,7 @@ fun CharacterDetail(
         isRefreshingState = isRefreshingState,
         characterState = characterState,
         refreshPage = { viewModel.refresh(viewModel.characterId) },
+        loadEpisodes = { viewModel.loadEpisodeData(it) },
         onBackClick = onBackClick
     )
 }
@@ -49,18 +52,23 @@ fun CharacterDetail(
 fun CharacterScreen(
     modifier: Modifier,
     refreshPage: () -> Unit,
+    loadEpisodes: (List<String>) -> Unit,
     isRefreshingState: Boolean,
     characterState: ApiResult<DetailedCharacter>,
     onBackClick: () -> Unit,
 ) {
     when (characterState) {
         is ApiResult.Success -> {
+            loadEpisodes.invoke(characterState.data.episode)
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing = isRefreshingState),
                 onRefresh = {
                     refreshPage.invoke()
                 }) {
-                CharacterDetail(characterItem = characterState.data, onBackClick = onBackClick)
+                CharacterDetail(
+                    characterItem = characterState.data,
+                    onBackClick = onBackClick
+                )
             }
         }
         is ApiResult.Error -> {
@@ -92,7 +100,7 @@ fun CharacterScreen(
 @Composable
 fun CharacterDetail(
     characterItem: DetailedCharacter,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -133,16 +141,61 @@ fun CharacterDetail(
             }
         }
         Divider(color = Color.Black)
-        LazyColumn(
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(characterItem.episode) {
-                Text(text = it, Modifier.clickable {
+        Text(text = "Episodes", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        EpisodesSection(modifier = Modifier)
+    }
+}
 
-                })
-                Divider(color = Color.Black)
+@OptIn(ExperimentalLifecycleComposeApi::class)
+@Composable
+fun EpisodesSection(
+    modifier: Modifier,
+    viewModel: CharacterDetailViewModel = hiltViewModel()
+) {
+    val episodeState by viewModel.episodes.collectAsStateWithLifecycle()
+    LazyRow(
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(episodeState) {
+            when (it) {
+                is ApiResult.Success -> {
+                    EpisodeDetail(modifier = modifier, detailedEpisode = it.data)
+                }
+                is ApiResult.Error -> {
+                    Error(
+                        modifier = Modifier,
+                        errorMessage = it.exception.message
+                            ?: "Unknown error, please refresh"
+                    )
+                }
+                ApiResult.Loading -> {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator(Modifier)
+                    }
+                }
             }
         }
+    }
+
+}
+
+@Composable
+fun EpisodeDetail(modifier: Modifier, detailedEpisode: DetailedEpisode) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(BorderStroke(1.dp, Color.Black))
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(text = detailedEpisode.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        Text(text = detailedEpisode.episodeName)
+        Text(text = detailedEpisode.airData)
     }
 }
 
