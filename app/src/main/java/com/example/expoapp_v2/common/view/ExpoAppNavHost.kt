@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.expoapp_v2.characterdetail.view.CharacterDestination
+import com.example.expoapp_v2.characterdetail.view.characterScreenGraph
 import com.example.expoapp_v2.characters.view.CharactersDestination
 import com.example.expoapp_v2.characters.view.charactersScreenGraph
 
@@ -20,7 +22,10 @@ fun ExpoAppTopNavHost(
         modifier = modifier,
     ) {
         charactersScreenGraph(
-            navigateToProductDetail = { }
+            navigateToCharacterDetail = { navController.navigate("${CharacterDestination.route}/${it.id}") }
+        )
+        characterScreenGraph(
+            onBackClick = { navController.popBackStack() }
         )
     }
 }

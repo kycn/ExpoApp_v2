@@ -13,7 +13,7 @@ object CharactersDestination : ExpoAppNavDestination {
 }
 
 fun NavGraphBuilder.charactersScreenGraph(
-    navigateToProductDetail: (CharacterItem) -> Unit
+    navigateToCharacterDetail: (CharacterItem) -> Unit
 ) {
     navigation(
         route = CharactersDestination.route,
@@ -21,7 +21,7 @@ fun NavGraphBuilder.charactersScreenGraph(
     ) {
         composable(route = CharactersDestination.destination) {
             Characters(
-                navigateToProductDetail = navigateToProductDetail
+                navigateToCharacterDetail = navigateToCharacterDetail
             )
         }
     }

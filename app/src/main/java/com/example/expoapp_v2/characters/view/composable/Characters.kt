@@ -33,7 +33,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 fun Characters(
     modifier: Modifier = Modifier,
     viewModel: CharactersViewModel = hiltViewModel(),
-    navigateToProductDetail: (CharacterItem) -> Unit
+    navigateToCharacterDetail: (CharacterItem) -> Unit
 ) {
     val isRefreshingState by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val charactersState by viewModel.characters.collectAsStateWithLifecycle()
@@ -42,7 +42,7 @@ fun Characters(
         isRefreshingState = isRefreshingState,
         charactersState = charactersState,
         refreshPage = { viewModel.refresh() },
-        navigateToProductDetail = navigateToProductDetail
+        navigateToCharacterDetail = navigateToCharacterDetail
     )
 }
 
@@ -52,7 +52,7 @@ fun CharactersScreen(
     refreshPage: () -> Unit,
     isRefreshingState: Boolean,
     charactersState: ApiResult<List<CharacterItem>>,
-    navigateToProductDetail: (CharacterItem) -> Unit,
+    navigateToCharacterDetail: (CharacterItem) -> Unit,
 ) {
     when (charactersState) {
         is ApiResult.Success -> {
@@ -66,7 +66,10 @@ fun CharactersScreen(
                     contentPadding = PaddingValues(8.dp)
                 ) {
                     items(charactersState.data) { character ->
-                        CharacterItemRow(character, navigateToProductDetail)
+                        CharacterItemRow(
+                            character,
+                            navigateToCharacterDetail
+                        )
                         Divider(color = Color.Black)
                     }
                 }

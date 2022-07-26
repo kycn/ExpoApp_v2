@@ -33,7 +33,6 @@ class CharactersViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            // A fake 2 second 'refresh'
             _isRefreshing.emit(true)
             getScreenData()
             _isRefreshing.emit(false)
