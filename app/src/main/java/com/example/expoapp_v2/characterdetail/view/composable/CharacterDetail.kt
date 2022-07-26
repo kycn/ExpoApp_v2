@@ -4,10 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -102,7 +101,7 @@ fun CharacterDetail(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Button(onClick = { onBackClick.invoke() }) {
-            Text(text = "Go back")
+            Icon(Icons.Filled.ArrowBack, contentDescription = "Back image")
         }
         Row(
             verticalAlignment = CenterVertically,
