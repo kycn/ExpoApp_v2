@@ -20,7 +20,7 @@ fun ExpoAppTopNavHost(
         modifier = modifier,
     ) {
         charactersScreenGraph(
-            navigateToProductDetail = {  }
+            navigateToProductDetail = { }
         )
     }
 }
