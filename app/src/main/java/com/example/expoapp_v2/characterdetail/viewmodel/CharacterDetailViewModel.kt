@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.expoapp_v2.characterdetail.domain.model.DetailedCharacter
-import com.example.expoapp_v2.characterdetail.view.CharacterDestination
-import com.example.expoapp_v2.characters.domain.GetCharacterUseCase
+import com.example.expoapp_v2.characterdetail.view.CharacterDetailDestination
+import com.example.expoapp_v2.characterdetail.domain.GetCharacterDetailUseCase
 import com.example.expoapp_v2.common.service.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,13 +15,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewModel @Inject constructor(
+class CharacterDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCharacterUseCase: GetCharacterUseCase
+    private val getCharacterDetailUseCase: GetCharacterDetailUseCase
 ) : ViewModel() {
 
     val characterId: Int = checkNotNull(
-        savedStateHandle[CharacterDestination.characterId]
+        savedStateHandle[CharacterDetailDestination.characterId]
     )
 
     private val _isRefreshing = MutableStateFlow(false)
@@ -47,7 +47,7 @@ class CharacterViewModel @Inject constructor(
     }
 
     private suspend fun getScreenData(id: Int) {
-        getCharacterUseCase(GetCharacterUseCase.GetCharacterUseCaseParams(id)).collect {
+        getCharacterDetailUseCase(GetCharacterDetailUseCase.GetCharacterUseCaseParams(id)).collect {
             _character.value = it
         }
     }

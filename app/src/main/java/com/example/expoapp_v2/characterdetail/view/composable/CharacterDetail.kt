@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.expoapp_v2.characterdetail.domain.model.DetailedCharacter
-import com.example.expoapp_v2.characterdetail.viewmodel.CharacterViewModel
+import com.example.expoapp_v2.characterdetail.viewmodel.CharacterDetailViewModel
 import com.example.expoapp_v2.common.service.ApiResult
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -28,9 +28,9 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun Character(
+fun CharacterDetail(
     modifier: Modifier = Modifier,
-    viewModel: CharacterViewModel = hiltViewModel(),
+    viewModel: CharacterDetailViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
 ) {
     val isRefreshingState by viewModel.isRefreshing.collectAsStateWithLifecycle()
